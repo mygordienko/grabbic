@@ -1,2 +1,3 @@
-# grabbic
-Handy app to share clipboard data.
+# Grabbic
+
+Handy clipboard sharing app
