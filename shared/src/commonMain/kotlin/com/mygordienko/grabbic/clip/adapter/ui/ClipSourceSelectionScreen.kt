@@ -13,12 +13,15 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.mygordienko.grabbic.clip.ClipSourceRepository
 import com.mygordienko.grabbic.clip.ClipSourceSelectionViewModel
 import grabbic.shared.generated.resources.Res
@@ -30,16 +33,20 @@ import org.jetbrains.compose.resources.stringResource
 
 
 @Composable
-fun ClipSourceSelectionScreen(repository: ClipSourceRepository) {
+fun ClipSourceSelectionScreen(repository: ClipSourceRepository, navController: NavController) {
     val viewModel = viewModel { ClipSourceSelectionViewModel(repository) }
-    val state = viewModel.state.collectAsStateWithLifecycle().value
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
+    fun navigateToAddNewSource() {
+        navController.navigate("add-clip-source")
+    }
 
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
                 shape = CircleShape,
                 onClick = {
-//                    navigateToAddNewSource()
+                    navigateToAddNewSource()
                 }
             ){
                 Text("+")
@@ -60,13 +67,14 @@ fun ClipSourceSelectionScreen(repository: ClipSourceRepository) {
                     .fillMaxWidth()
                     .padding(16.dp)
             )
-            if (state.isLoading) {
+
+            if (state.value.isLoading) {
                 LoadingView()
-            } else if (state.sources.isEmpty()) {
+            } else if (state.value.sources.isEmpty()) {
                 EmptyView()
             } else {
                 ListSourcesScreen(
-                    state.sources,
+                    state.value.sources,
                     onDelete = {
                         viewModel.deleteSource(it)
                     }

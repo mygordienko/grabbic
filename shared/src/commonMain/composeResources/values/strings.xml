@@ -1,4 +1,8 @@
 <resources>
+    <string name="clip_property_name">Name</string>
+    <string name="clip_property_url">Url</string>
+    <string name="clip_property_color">Color</string>
+
     <string name="clip_source_list_title">Sources</string>
     <string name="clip_source_edit_title">Edit source</string>
     <string name="clip_source_add_title">Add new source</string>

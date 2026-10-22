@@ -6,11 +6,12 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.mygordienko.grabbic.clip.domain.ClipSource
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ClipSourceDao {
     @Query("SELECT * FROM clip_sources ORDER BY updatedAt DESC")
-    suspend fun getAllSources(): List<ClipSource>
+    fun getAllSources(): Flow<List<ClipSource>>
 
     @Query("SELECT * FROM clip_sources WHERE id = :id")
     suspend fun getSourceById(id: String): ClipSource?

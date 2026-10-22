@@ -11,7 +11,7 @@ import kotlinx.coroutines.Dispatchers
 @Database(entities = [ClipSource::class], version = 1, exportSchema = true)
 @ConstructedBy(ClipSourceDatabaseConstructor::class)
 abstract class ClipSourceDatabase: RoomDatabase() {
-    abstract fun noteDao(): ClipSourceDao
+    abstract fun clipSourceDao(): ClipSourceDao
 }
 
 /**
