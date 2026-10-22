@@ -1,4 +1,4 @@
-# Grabbic
+# Grabbic (WIP)
 
 Handy clipboard sharing app
 
