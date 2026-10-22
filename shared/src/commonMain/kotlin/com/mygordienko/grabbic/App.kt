@@ -1,13 +1,14 @@
 package com.mygordienko.grabbic
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
-import androidx.compose.ui.tooling.preview.Preview
+import com.mygordienko.grabbic.clip.adapter.ui.ClipSourceSelectionScreen
+import com.mygordienko.grabbic.clip.adapter.db.ClipSourceDatabase
+import com.mygordienko.grabbic.clip.adapter.db.RoomClipSourceRepository
+import com.mygordienko.grabbic.ui.theme.GrabbicTheme
 
 @Composable
-@Preview
-fun App() {
-    MaterialTheme {
-
+fun App(clipSourceDatabase: ClipSourceDatabase) {
+    GrabbicTheme {
+        ClipSourceSelectionScreen(repository = RoomClipSourceRepository(clipSourceDatabase))
     }
 }

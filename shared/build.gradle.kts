@@ -5,6 +5,11 @@ plugins {
     alias(libs.plugins.androidMultiplatformLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    alias(libs.plugins.androidx.room)
+    alias(libs.plugins.ksp)
+
+    alias(libs.plugins.kotlinxSerialization)
 }
 
 kotlin {
@@ -45,6 +50,12 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(libs.androidx.room.runtime)
+            implementation(libs.androidx.sqlite.bundle)
+
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.navigation.compose)
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -54,4 +65,14 @@ kotlin {
 
 dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
+
+    /**
+     * KSP is responsible for generating NoteDatabaseConstructor for each target platform
+     */
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
+}
+
+room {
+    schemaDirectory(path = "$projectDir/schema")
 }

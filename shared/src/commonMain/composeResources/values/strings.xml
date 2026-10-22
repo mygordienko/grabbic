@@ -1,0 +1,13 @@
+<resources>
+    <string name="clip_source_list_title">Sources</string>
+    <string name="clip_source_edit_title">Edit source</string>
+    <string name="clip_source_add_title">Add new source</string>
+    <string name="clip_no_sources">No sources configured</string>
+    <string name="clip_loading">Loading sources</string>
+
+    <string name="common_action_submit">Submit</string>
+    <string name="common_action_save">Save</string>
+    <string name="common_action_cancel">Cancel</string>
+    <string name="common_action_go_back">Go Back</string>
+    <string name="common_action_retry">Retry</string>
+</resources>

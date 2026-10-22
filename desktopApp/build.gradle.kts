@@ -9,6 +9,8 @@ plugins {
 dependencies {
     implementation(project(":shared"))
 
+    implementation(libs.androidx.room.runtime)
+
     implementation(compose.desktop.currentOs)
     implementation(libs.kotlinx.coroutinesSwing)
 

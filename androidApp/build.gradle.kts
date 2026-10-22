@@ -13,6 +13,8 @@ kotlin {
 dependencies {
     implementation(project(":shared"))
 
+    implementation(libs.androidx.room.sqlite.wrapper)
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.ktor.client.android)
     implementation(libs.slf4j.android)
