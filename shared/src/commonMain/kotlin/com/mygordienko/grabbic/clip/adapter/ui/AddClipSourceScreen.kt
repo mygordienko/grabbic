@@ -10,10 +10,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,6 +32,7 @@ import com.mygordienko.grabbic.clip.AddClipSourceViewModel
 import com.mygordienko.grabbic.clip.ClipSourceRepository
 import com.mygordienko.grabbic.clip.domain.ClipSource
 import com.mygordienko.grabbic.common.SevenColorPicker
+import com.mygordienko.grabbic.common.ValidatingInputTextField
 import com.mygordienko.grabbic.common.toColorFromHex
 import com.mygordienko.grabbic.common.toHexString
 import com.mygordienko.grabbic.ui.theme.GrabbicTheme
@@ -40,6 +40,8 @@ import grabbic.shared.generated.resources.Res
 import grabbic.shared.generated.resources.clip_property_name
 import grabbic.shared.generated.resources.clip_property_url
 import grabbic.shared.generated.resources.clip_source_add_title
+import grabbic.shared.generated.resources.clip_source_validation_invalid_name
+import grabbic.shared.generated.resources.clip_source_validation_invalid_url
 import grabbic.shared.generated.resources.common_action_cancel
 import grabbic.shared.generated.resources.common_action_save
 import kotlinx.coroutines.flow.Flow
@@ -51,8 +53,25 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
     val viewModel = viewModel { AddClipSourceViewModel(clipSourceRepository) }
 
     var name by remember { mutableStateOf("") }
-    var url by remember { mutableStateOf("") }
+    val nameHasErrors by remember {
+        derivedStateOf {
+            !name.isNotEmpty()
+        }
+    }
+
     var color by remember { mutableStateOf("FF9A5800") }
+
+    var url by remember { mutableStateOf("") }
+    val urlRegex = """^https?:\/\/(([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})(\:([-a-zA-Z0-9_]{1,9000}))?|(([-a-zA-Z0-9_]{1,256})(\:([-a-zA-Z0-9_]{1,4}))?))$""".toRegex()
+    val urlHasErrors by remember {
+        derivedStateOf {
+            if (url.isNotEmpty()) {
+                !urlRegex.matches(url)
+            } else {
+                true
+            }
+        }
+    }
 
     val colors = listOf(
         Color(0xFF123456),
@@ -61,6 +80,8 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
         Color(0xFF154C57),
         Color(0xFF60228C),
     )
+
+    val formHasErrors = urlHasErrors || nameHasErrors
 
     fun saveSource(source: ClipSource) {
         viewModel.addSource(
@@ -92,44 +113,41 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
                     .padding(16.dp)
             )
 
-            OutlinedTextField(
-                value = name,
+            ValidatingInputTextField(
                 label = {
                     Text(
                         text = stringResource(Res.string.clip_property_name),
                         fontSize = 16.sp
                     )
                 },
-                onValueChange = { name = it},
-                placeholder = {
-                    Text(
-                        text = stringResource(Res.string.clip_property_name),
-                        fontSize = 22.sp)
+                value = name,
+                updateState = { input -> name = input },
+                validatorHasErrors = nameHasErrors,
+                errorText = {
+                    Text(text = stringResource(Res.string.clip_source_validation_invalid_name))
                 },
-                textStyle = TextStyle(fontSize = 22.sp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
             )
+
             Spacer(
                 modifier = Modifier.size(16.dp)
             )
 
-            OutlinedTextField(
-                value = url,
+            ValidatingInputTextField(
                 label = {
                     Text(
                         text = stringResource(Res.string.clip_property_url),
                         fontSize = 16.sp
                     )
                 },
-                onValueChange = { url = it},
-                placeholder = {
-                    Text(
-                        text = stringResource(Res.string.clip_property_url),
-                        fontSize = 22.sp)
+                value = url,
+                updateState = { input -> url = input },
+                validatorHasErrors = urlHasErrors,
+                errorText = {
+                    Text(text = stringResource(Res.string.clip_source_validation_invalid_url))
                 },
-                textStyle = TextStyle(fontSize = 22.sp),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
@@ -160,6 +178,7 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
                     .weight(0.15f)
             ) {
                 Button(
+                    enabled = !formHasErrors,
                     shape = RoundedCornerShape(25f),
                     onClick = {
                         saveSource(ClipSource(name= name, url = url, color = color))

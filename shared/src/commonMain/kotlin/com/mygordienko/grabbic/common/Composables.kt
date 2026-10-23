@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -20,7 +21,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlin.collections.forEach
 
 @Composable
 fun SevenColorPicker(
@@ -76,7 +76,6 @@ fun SevenColorPicker(
     }
 }
 
-
 @Composable
 @Preview
 fun SevenColorPickerPreview() {
@@ -87,5 +86,28 @@ fun SevenColorPickerPreview() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp)
+    )
+}
+
+@Composable
+fun ValidatingInputTextField(
+    label: @Composable (() -> Unit)? = null,
+    value: String,
+    updateState: (String) -> Unit,
+    validatorHasErrors: Boolean,
+    errorText: @Composable (() -> Unit),
+    modifier: Modifier
+) {
+    OutlinedTextField(
+        modifier = modifier,
+        value = value,
+        onValueChange = updateState,
+        label = label,
+        isError = validatorHasErrors,
+        supportingText = {
+            if (validatorHasErrors) {
+                errorText()
+            }
+        }
     )
 }

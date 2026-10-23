@@ -6,6 +6,9 @@
     <string name="clip_source_list_title">Sources</string>
     <string name="clip_source_edit_title">Edit source</string>
     <string name="clip_source_add_title">Add new source</string>
+    <string name="clip_source_validation_invalid_url">Invalid URL</string>
+    <string name="clip_source_validation_invalid_name">Invalid name</string>
+
     <string name="clip_no_sources">No sources configured</string>
     <string name="clip_loading">Loading sources</string>
 
