@@ -20,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,6 +32,9 @@ import androidx.navigation.compose.rememberNavController
 import com.mygordienko.grabbic.clip.AddClipSourceViewModel
 import com.mygordienko.grabbic.clip.ClipSourceRepository
 import com.mygordienko.grabbic.clip.domain.ClipSource
+import com.mygordienko.grabbic.common.SevenColorPicker
+import com.mygordienko.grabbic.common.toColorFromHex
+import com.mygordienko.grabbic.common.toHexString
 import com.mygordienko.grabbic.ui.theme.GrabbicTheme
 import grabbic.shared.generated.resources.Res
 import grabbic.shared.generated.resources.clip_property_name
@@ -48,8 +52,15 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
 
     var name by remember { mutableStateOf("") }
     var url by remember { mutableStateOf("") }
-    // TODO: color picker
     var color by remember { mutableStateOf("FF9A5800") }
+
+    val colors = listOf(
+        Color(0xFF123456),
+        Color(0xFF9A5800),
+        Color(0xFFF26B1D),
+        Color(0xFF154C57),
+        Color(0xFF60228C),
+    )
 
     fun saveSource(source: ClipSource) {
         viewModel.addSource(
@@ -127,6 +138,18 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
             Spacer(
                 modifier = Modifier.size(16.dp)
             )
+
+            SevenColorPicker(
+                colors = colors,
+                selectedColor = color.toColorFromHex(),
+                onColorSelected = {
+                    color = it.toHexString()
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+
             Spacer(modifier = Modifier.weight(0.85f))
             Row(
                 horizontalArrangement = Arrangement.spacedBy(18.dp),
