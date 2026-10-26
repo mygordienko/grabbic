@@ -22,6 +22,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.mygordienko.grabbic.ActiveClipSource
+import com.mygordienko.grabbic.AddClipSource
 import com.mygordienko.grabbic.clip.ClipSourceRepository
 import com.mygordienko.grabbic.clip.ClipSourceSelectionViewModel
 import grabbic.shared.generated.resources.Res
@@ -38,7 +40,7 @@ fun ClipSourceSelectionScreen(repository: ClipSourceRepository, navController: N
     val state = viewModel.state.collectAsStateWithLifecycle()
 
     fun navigateToAddNewSource() {
-        navController.navigate("add-clip-source")
+        navController.navigate(AddClipSource)
     }
 
     Scaffold(
@@ -77,6 +79,9 @@ fun ClipSourceSelectionScreen(repository: ClipSourceRepository, navController: N
             } else {
                 ListSourcesScreen(
                     state.value.sources,
+                    onClick = { it ->
+                        navController.navigate(ActiveClipSource(it.id))
+                    },
                     onDelete = {
                         viewModel.deleteSource(it)
                     }

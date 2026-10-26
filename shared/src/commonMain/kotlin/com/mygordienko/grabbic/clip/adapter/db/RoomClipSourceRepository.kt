@@ -12,6 +12,10 @@ class RoomClipSourceRepository(
         return clipSourceDatabase.clipSourceDao().getAllSources()
     }
 
+    override fun getById(id: String): Flow<ClipSource?> {
+        return clipSourceDatabase.clipSourceDao().getSourceById(id)
+    }
+
     override suspend fun deleteSource(id: String) {
         clipSourceDatabase.clipSourceDao().deleteSource(id)
     }

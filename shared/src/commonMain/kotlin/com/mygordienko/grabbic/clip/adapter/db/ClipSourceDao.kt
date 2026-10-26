@@ -14,7 +14,7 @@ interface ClipSourceDao {
     fun getAllSources(): Flow<List<ClipSource>>
 
     @Query("SELECT * FROM clip_sources WHERE id = :id")
-    suspend fun getSourceById(id: String): ClipSource?
+    fun getSourceById(id: String): Flow<ClipSource?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertSource(source: ClipSource)

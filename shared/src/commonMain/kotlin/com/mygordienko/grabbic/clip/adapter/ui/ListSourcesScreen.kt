@@ -24,27 +24,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mygordienko.grabbic.clip.domain.ClipSource
 import grabbic.shared.generated.resources.Res
-import grabbic.shared.generated.resources.delete
+import grabbic.shared.generated.resources.icon_delete
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun ListSourcesScreen(notes: List<ClipSource>, onDelete: (ClipSource) -> Unit) {
+fun ListSourcesScreen(notes: List<ClipSource>, onClick: (ClipSource) -> Unit, onDelete: (ClipSource) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         items(items = notes) {
-            ClipSourceItem(source = it, onDelete)
+            ClipSourceItem(source = it, onClick = onClick, onDelete = onDelete)
         }
     }
 }
 @Composable
-fun ClipSourceItem(source: ClipSource, onDelete: (ClipSource) -> Unit) {
+fun ClipSourceItem(source: ClipSource, onClick: (ClipSource) -> Unit, onDelete: (ClipSource) -> Unit) {
     Box(
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
             .clip(shape = RoundedCornerShape(size = 8.dp))
             .background(Color(source.color.toLong(16)))
+            .clickable {
+                onClick.invoke(source)
+            }
             .padding(24.dp)
     ) {
         Row(
@@ -57,7 +60,7 @@ fun ClipSourceItem(source: ClipSource, onDelete: (ClipSource) -> Unit) {
             )
             Spacer(modifier = Modifier.size(8.dp))
             Image(
-                painter = painterResource(Res.drawable.delete),
+                painter = painterResource(Res.drawable.icon_delete),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(8.dp)
@@ -75,5 +78,5 @@ fun ListNoteScreenPreview() {
     ListSourcesScreen(listOf(
         ClipSource(name = "Montana", url = "http://192.168.1.212:8989", color = "FF9A5800"),
         ClipSource(name = "Nevada", url = "http://192.168.1.212:8989", color = "FF103C3F")
-    ), {})
+    ), {}, {})
 }

@@ -1,30 +1,68 @@
 package com.mygordienko.grabbic
 
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mygordienko.grabbic.clip.adapter.ui.ClipSourceSelectionScreen
+import androidx.navigation.toRoute
+import com.mygordienko.grabbic.clip.ClipSourceClient
+import com.mygordienko.grabbic.clip.DummyClipboardOperationService
 import com.mygordienko.grabbic.clip.adapter.db.ClipSourceDatabase
 import com.mygordienko.grabbic.clip.adapter.db.RoomClipSourceRepository
+import com.mygordienko.grabbic.clip.adapter.ui.ActiveClipSourceScreen
 import com.mygordienko.grabbic.clip.adapter.ui.AddClipSourceScreen
+import com.mygordienko.grabbic.clip.adapter.ui.ClipSourceSelectionScreen
 import com.mygordienko.grabbic.ui.theme.GrabbicTheme
+import kotlinx.serialization.Serializable
 
 @Composable
-fun App(clipSourceDatabase: ClipSourceDatabase) {
+fun App(
+    clipSourceDatabase: ClipSourceDatabase
+) {
     val repository = RoomClipSourceRepository(clipSourceDatabase)
+    val clipSourceClient = ClipSourceClient()
+    val clipboardOperationService = DummyClipboardOperationService()
 
     GrabbicTheme {
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = "clip-source-selection") {
-            composable(route = "clip-source-selection") {
+        NavHost(navController, startDestination = ClipSourceSelection) {
+            composable<ClipSourceSelection> {
                 ClipSourceSelectionScreen(repository = repository, navController)
             }
 
-            composable(route = "add-clip-source") {
+            composable<AddClipSource> {
                 AddClipSourceScreen(repository, navController)
+            }
+
+            composable<ActiveClipSource> { backStackEntry ->
+                val route = backStackEntry.toRoute<ActiveClipSource>()
+                ActiveClipSourceScreen(
+                    clipSourceId = route.clipSourceId,
+                    clipSourceRepository = repository,
+                    clipSourceClient = clipSourceClient,
+                    clipboardOperationService = clipboardOperationService,
+                    onMissingClipSource = {
+                        navController.navigate(ClipSourceSelection)
+                    },
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
     }
 }
+
+
+@Serializable
+object ClipSourceSelection
+
+@Serializable
+object AddClipSource
+
+
+@Serializable
+data class ActiveClipSource(
+    val clipSourceId: String
+)

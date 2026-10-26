@@ -215,6 +215,10 @@ fun AddClipSourceScreenPreview() {
             return flowOf(emptyList())
         }
 
+        override fun getById(id: String): Flow<ClipSource?> {
+            return flowOf()
+        }
+
         override suspend fun deleteSource(id: String) {
         }
 
