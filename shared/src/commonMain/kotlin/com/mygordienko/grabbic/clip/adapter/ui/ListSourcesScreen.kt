@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.mygordienko.grabbic.clip.domain.ClipSource
 import grabbic.shared.generated.resources.Res
 import grabbic.shared.generated.resources.icon_delete
-import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.vectorResource
 
 @Composable
 fun ListSourcesScreen(notes: List<ClipSource>, onClick: (ClipSource) -> Unit, onDelete: (ClipSource) -> Unit) {
@@ -60,8 +60,8 @@ fun ClipSourceItem(source: ClipSource, onClick: (ClipSource) -> Unit, onDelete: 
             )
             Spacer(modifier = Modifier.size(8.dp))
             Image(
-                painter = painterResource(Res.drawable.icon_delete),
-                contentDescription = null,
+                imageVector = vectorResource(Res.drawable.icon_delete),
+                contentDescription = "delete",
                 modifier = Modifier
                     .padding(8.dp)
                     .clickable {

@@ -48,14 +48,16 @@ import grabbic.shared.generated.resources.Res
 import grabbic.shared.generated.resources.clip_error_missing_source
 import grabbic.shared.generated.resources.common_action_go_back
 import grabbic.shared.generated.resources.error
-import grabbic.shared.generated.resources.icon_back
+import grabbic.shared.generated.resources.icon_arrow_back
+import grabbic.shared.generated.resources.icon_arrow_down
 import grabbic.shared.generated.resources.icon_clear
 import grabbic.shared.generated.resources.icon_copy
-import grabbic.shared.generated.resources.icon_get
+import grabbic.shared.generated.resources.icon_menu
 import grabbic.shared.generated.resources.no_data
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.resources.vectorResource
 
 
 @Composable
@@ -95,7 +97,10 @@ fun ActiveClipSourceScreen(
                         contentColor = MaterialTheme.colorScheme.contentColorFor(MaterialTheme.colorScheme.primary),
                         onClick = { floatingButtonMenuExpanded = !floatingButtonMenuExpanded}
                     ){
-                        Text("☰")
+                       Icon(
+                            imageVector = vectorResource(Res.drawable.icon_menu),
+                            contentDescription = ""
+                        )
                     }
                 },
                 horizontalAlignment = Alignment.End,
@@ -106,7 +111,7 @@ fun ActiveClipSourceScreen(
                         },
                         text = { },
                         icon =  { Icon(
-                            painter = painterResource(Res.drawable.icon_clear),
+                            imageVector = vectorResource(Res.drawable.icon_clear),
                             contentDescription = "",
                             modifier = Modifier.size(24.dp)
                         ) },
@@ -119,9 +124,8 @@ fun ActiveClipSourceScreen(
                         },
                         text = { },
                         icon =  { Icon(
-                            painter = painterResource(Res.drawable.icon_get),
+                            imageVector = vectorResource(Res.drawable.icon_arrow_down),
                             contentDescription = "",
-                            modifier = Modifier.size(24.dp)
                         ) },
                         containerColor = MaterialTheme.colorScheme.primaryFixedDim,
                         contentColor = MaterialTheme.colorScheme.contentColorFor(MaterialTheme.colorScheme.primaryFixedDim)
@@ -132,7 +136,7 @@ fun ActiveClipSourceScreen(
                         },
                         text = {  },
                         icon =  { Icon(
-                            painter = painterResource(Res.drawable.icon_copy),
+                            imageVector = vectorResource(Res.drawable.icon_copy),
                             contentDescription = "",
                             modifier = Modifier.size(24.dp)
                         ) },
@@ -264,7 +268,7 @@ fun ActiveClipSourceHeader(source: ClipSource, backClick: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                painter = painterResource(Res.drawable.icon_back),
+                imageVector = vectorResource(Res.drawable.icon_arrow_back),
                 contentDescription = "back",
                 modifier = Modifier
                     .size(24.dp)
