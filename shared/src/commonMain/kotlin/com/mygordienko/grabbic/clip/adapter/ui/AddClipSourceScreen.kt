@@ -175,7 +175,6 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
-                    .weight(0.15f)
             ) {
                 Button(
                     enabled = !formHasErrors,
