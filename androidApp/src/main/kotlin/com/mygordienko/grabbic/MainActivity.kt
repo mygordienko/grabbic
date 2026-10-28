@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.mygordienko.grabbic.clip.DummyClipboardOperationService
 import com.mygordienko.grabbic.clip.adapter.db.getClipSourceDatabase
 
 class MainActivity : ComponentActivity() {
@@ -16,7 +17,8 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             App(
-                clipSourceDatabase = getClipSourceDatabase(builder = getDatabaseBuilder(this@MainActivity))
+                clipSourceDatabase = getClipSourceDatabase(builder = getDatabaseBuilder(this@MainActivity)),
+                clipboardOperationService = AndroidClipboardOperationService(this@MainActivity)
             )
         }
     }
@@ -26,5 +28,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppAndroidPreview() {
     val database = getClipSourceDatabase(getDatabaseBuilder(LocalContext.current))
-    App(database)
+    val clipboardOperationService = DummyClipboardOperationService()
+    App(
+        database,
+        clipboardOperationService
+    )
 }

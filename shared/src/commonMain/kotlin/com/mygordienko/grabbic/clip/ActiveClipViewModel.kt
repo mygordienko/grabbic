@@ -44,7 +44,18 @@ class ActiveClipViewModel(
                 _uiState.value = ActiveClipOperationState.Error(error = "Error clearing clipboard", _uiState.value.data)
             }
         }
+    }
 
+    fun reload(): Unit {
+        viewModelScope.launch {
+            try {
+                _uiState.value = ActiveClipOperationState.Loading(_uiState.value.data)
+                val data = clipOperationService.read()
+                _uiState.value = ActiveClipOperationState.Success(newData = data)
+            } catch (ex: Exception) {
+                _uiState.value = ActiveClipOperationState.Error(error = "Error reloading clipboard", _uiState.value.data)
+            }
+        }
     }
 
     fun copy(): Unit {

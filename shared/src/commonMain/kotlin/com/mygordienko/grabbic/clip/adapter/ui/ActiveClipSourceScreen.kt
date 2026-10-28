@@ -53,6 +53,7 @@ import grabbic.shared.generated.resources.icon_arrow_down
 import grabbic.shared.generated.resources.icon_clear
 import grabbic.shared.generated.resources.icon_copy
 import grabbic.shared.generated.resources.icon_menu
+import grabbic.shared.generated.resources.icon_refresh
 import grabbic.shared.generated.resources.no_data
 import kotlinx.coroutines.flow.collectLatest
 import org.jetbrains.compose.resources.painterResource
@@ -105,6 +106,19 @@ fun ActiveClipSourceScreen(
                 },
                 horizontalAlignment = Alignment.End,
                 content = {
+                    FloatingActionButtonMenuItem(
+                        onClick = {
+                            viewModel.reload()
+                        },
+                        text = { },
+                        icon =  { Icon(
+                            imageVector = vectorResource(Res.drawable.icon_refresh),
+                            contentDescription = "",
+                            modifier = Modifier.size(24.dp)
+                        ) },
+                        containerColor = MaterialTheme.colorScheme.primaryFixedDim,
+                        contentColor = MaterialTheme.colorScheme.contentColorFor(MaterialTheme.colorScheme.primaryFixedDim),
+                    )
                     FloatingActionButtonMenuItem(
                         onClick = {
                             viewModel.clear()

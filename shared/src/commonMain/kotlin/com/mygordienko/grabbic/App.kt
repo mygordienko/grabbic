@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.mygordienko.grabbic.clip.ClipSourceClient
-import com.mygordienko.grabbic.clip.DummyClipboardOperationService
+import com.mygordienko.grabbic.clip.ClipboardOperationService
 import com.mygordienko.grabbic.clip.adapter.db.ClipSourceDatabase
 import com.mygordienko.grabbic.clip.adapter.db.RoomClipSourceRepository
 import com.mygordienko.grabbic.clip.adapter.ui.ActiveClipSourceScreen
@@ -17,11 +17,11 @@ import kotlinx.serialization.Serializable
 
 @Composable
 fun App(
-    clipSourceDatabase: ClipSourceDatabase
+    clipSourceDatabase: ClipSourceDatabase,
+    clipboardOperationService: ClipboardOperationService
 ) {
     val repository = RoomClipSourceRepository(clipSourceDatabase)
     val clipSourceClient = ClipSourceClient()
-    val clipboardOperationService = DummyClipboardOperationService()
 
     GrabbicTheme {
         val navController = rememberNavController()

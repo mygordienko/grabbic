@@ -25,6 +25,7 @@ dateTimeVersion = "0.8.0"
 sqlite = "2.7.1"
 ksp = "2.3.12"
 room = "2.8.5"
+kermit = "2.2.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -65,6 +66,7 @@ androidx-sqlite-bundle = { module = "androidx.sqlite:sqlite-bundled", version.re
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room"}
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room"}
 androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", version.ref = "room"}
+kermit = { module = "co.touchlab:kermit", version.ref = "kermit"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -11,6 +11,7 @@ fun main() = application {
     ) {
         App(
             clipSourceDatabase = getClipSourceDatabase(getDatabaseBuilder()),
+            clipboardOperationService = DesktopClipboardOperationService()
         )
     }
 }
