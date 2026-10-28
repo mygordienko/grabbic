@@ -5,10 +5,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
-import com.mygordienko.grabbic.clip.ClipSourceClient
 import com.mygordienko.grabbic.clip.ClipboardOperationService
 import com.mygordienko.grabbic.clip.adapter.db.ClipSourceDatabase
 import com.mygordienko.grabbic.clip.adapter.db.RoomClipSourceRepository
+import com.mygordienko.grabbic.clip.adapter.remote.HttpClientFactory
+import com.mygordienko.grabbic.clip.adapter.remote.HttpClipSourceClient
 import com.mygordienko.grabbic.clip.adapter.ui.ActiveClipSourceScreen
 import com.mygordienko.grabbic.clip.adapter.ui.AddClipSourceScreen
 import com.mygordienko.grabbic.clip.adapter.ui.ClipSourceSelectionScreen
@@ -21,7 +22,7 @@ fun App(
     clipboardOperationService: ClipboardOperationService
 ) {
     val repository = RoomClipSourceRepository(clipSourceDatabase)
-    val clipSourceClient = ClipSourceClient()
+    val clipSourceClient = HttpClipSourceClient(HttpClientFactory.getHttpClient())
 
     GrabbicTheme {
         val navController = rememberNavController()

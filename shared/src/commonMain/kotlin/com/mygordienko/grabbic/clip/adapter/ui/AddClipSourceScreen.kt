@@ -62,7 +62,7 @@ fun AddClipSourceScreen(clipSourceRepository: ClipSourceRepository, navControlle
     var color by remember { mutableStateOf("FF9A5800") }
 
     var url by remember { mutableStateOf("") }
-    val urlRegex = """^https?:\/\/(([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})(\:([-a-zA-Z0-9_]{1,9000}))?|(([-a-zA-Z0-9_]{1,256})(\:([-a-zA-Z0-9_]{1,4}))?))$""".toRegex()
+    val urlRegex = """^https?:\/\/(([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})(\:([-a-zA-Z0-9_]{1,9000}))?|(([-a-zA-Z0-9_]{1,256})(\:([-a-zA-Z0-9_]{1,5}))?))$""".toRegex()
     val urlHasErrors by remember {
         derivedStateOf {
             if (url.isNotEmpty()) {

@@ -29,7 +29,7 @@ class ActiveClipViewModel(
                 _uiState.value = ActiveClipOperationState.Success(newData = data)
             } catch (ex: Exception) {
                 _uiState.value =
-                    ActiveClipOperationState.Error(error = "Error fetching clipboard from the source", _uiState.value.data)
+                    ActiveClipOperationState.Error(error = "Error fetching clipboard from the source: ${ex.message}", _uiState.value.data)
             }
         }
     }
