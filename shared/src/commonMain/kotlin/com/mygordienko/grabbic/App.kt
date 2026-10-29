@@ -10,9 +10,12 @@ import com.mygordienko.grabbic.clip.adapter.db.ClipSourceDatabase
 import com.mygordienko.grabbic.clip.adapter.db.RoomClipSourceRepository
 import com.mygordienko.grabbic.clip.adapter.remote.HttpClientFactory
 import com.mygordienko.grabbic.clip.adapter.remote.HttpClipSourceClient
+import com.mygordienko.grabbic.clip.adapter.remote.KtorServerManager
 import com.mygordienko.grabbic.clip.adapter.ui.ActiveClipSourceScreen
 import com.mygordienko.grabbic.clip.adapter.ui.AddClipSourceScreen
 import com.mygordienko.grabbic.clip.adapter.ui.ClipSourceSelectionScreen
+import com.mygordienko.grabbic.clip.adapter.ui.HomeScreen
+import com.mygordienko.grabbic.clip.adapter.ui.ServerScreen
 import com.mygordienko.grabbic.ui.theme.GrabbicTheme
 import kotlinx.serialization.Serializable
 
@@ -27,7 +30,28 @@ fun App(
     GrabbicTheme {
         val navController = rememberNavController()
 
-        NavHost(navController, startDestination = ClipSourceSelection) {
+        NavHost(navController, startDestination = Home) {
+            composable<Home> {
+                HomeScreen(
+                    navigateToClient = {
+                        navController.navigate(ClipSourceSelection)
+                    },
+                    navigateToServer = {
+                        navController.navigate(Server)
+                    }
+                )
+            }
+
+            composable<Server> {
+                ServerScreen(
+                    clipboardServer = KtorServerManager(8_000L),
+                    clipboardOperationService = clipboardOperationService,
+                    onBackClick = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
             composable<ClipSourceSelection> {
                 ClipSourceSelectionScreen(repository = repository, navController)
             }
@@ -55,6 +79,13 @@ fun App(
     }
 }
 
+
+@Serializable
+object Home
+
+@Serializable
+object Server {
+}
 
 @Serializable
 object ClipSourceSelection

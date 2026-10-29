@@ -12,7 +12,6 @@ import io.ktor.http.appendPathSegments
 import io.ktor.http.takeFrom
 
 class HttpClipSourceClient(val client: HttpClient): ClipSourceClient  {
-    private val CLIPBOARD_PATH = "/api/v1/clipboard"
 
     override suspend fun fetch(clipSource: ClipSource): String {
         try {

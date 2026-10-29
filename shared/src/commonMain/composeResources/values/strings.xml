@@ -1,4 +1,16 @@
 <resources>
+    <string name="home_mode_client_title">Client</string>
+    <string name="home_mode_server_title">Server</string>
+
+    <string name="server_title">Server</string>
+    <string name="server_status_stopped">Stopped</string>
+    <string name="server_status_starting">Starting</string>
+    <string name="server_status_started">Started</string>
+    <string name="server_status_stopping">Stopping</string>
+    <string name="server_status_error">Error</string>
+    <string name="server_action_start">Start</string>
+    <string name="server_action_stop">Stop</string>
+
     <string name="clip_property_name">Name</string>
     <string name="clip_property_url">Url</string>
     <string name="clip_property_color">Color</string>

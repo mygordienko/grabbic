@@ -2,6 +2,8 @@
 
 Handy clipboard sharing app
 
+<img src="docs/ui_samples.png" width="800" alt="UI Samples">
+
 ## Things to note
 
 * Room's Flows are cold, but it does not mean it won't push updates do consumers. 
@@ -45,4 +47,10 @@ Handy clipboard sharing app
     </vector>
     ```
     
-  
+* Embedded server startup is a blocking operation, so it is better to run it on `Dispatchers.IO`.
+    Take `ServerViewModel` for example, if we remove `Dispatchers.IO` from `startServer()` 
+    and `stopServer()` calls then we won't be able to see intermediate statuses like `Starting`, 
+    because server startup will be executing on a main thread (`viewModelScope` default). So the 
+    main thread will be blocked and by the moment it is released the `Started` sated will 
+    already be published to `StateFlow` and it will overwrite `Starting` state pushed earlier due 
+    to **state conflation**.
